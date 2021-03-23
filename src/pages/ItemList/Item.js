@@ -1,28 +1,26 @@
-import React, { memo, useContext } from 'react';
-import DispatchContext from '../Contexts/DispatchContext';
-// import StateContext from '../Contexts/StateContext';
+import React, { memo, useEffect, useState } from 'react';
+import { useCart } from '../../hooks/useCart';
 
 const Item = (props) => {
     const { info: { name, price } } = props;
-    const dispatchCtx = useContext(DispatchContext);
-    // const stateCtx = useContext(StateContext); 
-
-    const handleIncrement = () => {
-        dispatchCtx('INCREMENT');
-    };
-    const handleDecrement = () => {
-        // if (stateCtx.quantity > 1) {
-        dispatchCtx('DECREMENT');
-        // }
-    };
+    const cart = useCart();
+    const [disableBtn, setDisable] = useState(true);
+    useEffect(() => {
+        if (cart.state.quantity <= 0) {
+            setDisable(true);
+        }
+        else {
+            setDisable(false);
+        }
+    }, [cart.state.quantity]);
 
     return (
         <>
             {console.log('item')}
             <h3>{name}</h3>
             <div>{price}</div>
-            <button onClick={handleIncrement}>+</button>
-            <button onClick={handleDecrement}>-</button>
+            <button onClick={cart.handleIncrement}>+</button>
+            <button onClick={cart.handleDecrement} disabled={disableBtn}>-</button>
         </>
     )
 };

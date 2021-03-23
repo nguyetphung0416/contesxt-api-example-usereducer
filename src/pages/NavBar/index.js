@@ -1,5 +1,5 @@
-import React, { memo, useContext, useState } from 'react';
-import StateContext from '../Contexts/StateContext';
+import React, { memo } from 'react';
+import { useCart } from '../../hooks/useCart';
 
 const styles = {
     quantity: {
@@ -9,13 +9,13 @@ const styles = {
 };
 
 const NavBar = () => {
-    const stateCtx = useContext(StateContext);
-    console.log('quantity', stateCtx);
+    const cart = useCart();
+    console.log('quantity', cart.state.quantity);
 
     return (
         <>
             Quantity item in cart
-            <span style={styles.quantity}> {stateCtx.quantity}</span>
+            <span style={styles.quantity}> {cart.state.quantity}</span>
         </>
     )
 };
